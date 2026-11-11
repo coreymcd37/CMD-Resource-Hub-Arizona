@@ -1,0 +1,219 @@
+{
+ "keyless": [
+  {
+   "id": "llm7",
+   "name": "LLM7.io",
+   "url": "https://api.llm7.io/v1/chat/completions",
+   "models": [
+    "codestral-latest",
+    "mistral-Nemo-Instruct-2407"
+   ],
+   "note": "Verified live Nov 11, 2026 (called from a file:// page in Chrome). No key. Only the 2 models listed are on LLM7's free 'turbo' tier right now (its /v1/models marks the other 67 as 'pro'; gpt-oss:20b moved to 'pro' and now returns HTTP 401 without a key). Anonymous use is rate-limited per IP.",
+   "site": "https://llm7.io",
+   "timeout": 30,
+   "retry": 1
+  },
+  {
+   "id": "ovh",
+   "name": "OVHcloud AI Endpoints (anonymous)",
+   "url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/chat/completions",
+   "models": [
+    "Meta-Llama-3_3-70B-Instruct",
+    "gpt-oss-20b",
+    "gpt-oss-120b",
+    "Mistral-Small-3.2-24B-Instruct-2506",
+    "Qwen3.6-27B",
+    "Qwen3.8-27B"
+   ],
+   "note": "Verified live Nov 9, Nov 10 and again Nov 11, 2026 (default model, called from a file:// page in Chrome). No key. OVHcloud documents anonymous use at 2 requests per minute per IP per model (extra calls get 429, so the hub moves on). EU-hosted; OVH says data is not stored.",
+   "site": "https://www.ovhcloud.com/en/public-cloud/ai-endpoints/",
+   "timeout": 35,
+   "retry": 0
+  },
+  {
+   "id": "flm",
+   "name": "flm.stonech.at (free, no key)",
+   "url": "https://flm.stonech.at/v1/chat/completions",
+   "models": [
+    "auto"
+   ],
+   "nomodel": 1,
+   "note": "Verified live Nov 9, Nov 10 and again Nov 11, 2026 (default model, called from a file:// page in Chrome). No key. Third-party community service: the model is picked for you (any model name is ignored); its site lists 60 requests/min, 20K requests/day per IP. Prompts go to this host, so the hub only sends public resource names and your tab context.",
+   "site": "https://flm.stonech.at/",
+   "timeout": 45,
+   "retry": 0
+  },
+  {
+   "id": "poll_text",
+   "name": "Pollinations (text.pollinations.ai)",
+   "url": "https://text.pollinations.ai/openai",
+   "models": [
+    "openai-fast"
+   ],
+   "note": "Verified live Nov 9, Nov 10 and again Nov 11, 2026 (default model, called from a file:// page in Chrome). No key. The only anonymous text model is openai-fast (GPT-OSS 20B reasoning, per text.pollinations.ai/models). Slow and fragile: with default settings the hub's prompt failed with HTTP 400 \"output token limit exhausted\" after 75–85 s (reasoning model), so the hub now sends reasoning_effort=low and max_tokens=8192 (16 s in the same test). Used last.",
+   "site": "https://pollinations.ai",
+   "timeout": 75,
+   "retry": 1,
+   "extra": {
+    "reasoning_effort": "low",
+    "max_tokens": 8192
+   }
+  }
+ ],
+ "keyed": [
+  {
+   "id": "gemini",
+   "name": "Google Gemini API (AI Studio)",
+   "url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+   "models": [
+    "gemini-3.5-flash-lite",
+    "gemini-3.8-flash",
+    "gemini-3.6-flash",
+    "gemini-3.1-flash-lite"
+   ],
+   "key": "https://aistudio.google.com/apikey",
+   "steps": [
+    "Sign in at aistudio.google.com with a Google account",
+    "Click 'Get API key' then 'Create API key'",
+    "Paste it here, then turn Gemini on"
+   ],
+   "limits": "Free tier: Google's pricing page lists 'Free of charge' for Gemini 3.5 Flash-Lite and 3.1 Flash-Lite; Gemini 3.8 / 3.6 Flash are listed as free-tier models on third-party summaries. Exact limits are per project in AI Studio. Free-tier prompts are 'used to improve our products'. gemini-2.5-flash was removed from the list: Google says it is deprecated and routes to 3.5 Flash-Lite on Dec 1, 2026. Checked Nov 9, 2026.",
+   "cors": "Yes — Chrome loaded from this file could read the API response (tested Nov 1, 2026 with a dummy key → readable 4xx).",
+   "timeout": 45,
+   "retry": 1
+  },
+  {
+   "id": "groq",
+   "name": "Groq",
+   "url": "https://api.groq.com/openai/v1/chat/completions",
+   "models": [
+    "openai/gpt-oss-20b",
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b"
+   ],
+   "key": "https://console.groq.com/keys",
+   "steps": [
+    "Sign up at console.groq.com",
+    "Open API Keys → Create API Key",
+    "Paste it here"
+   ],
+   "limits": "Free tier exists (billing FAQ: upgrading from Free to Developer needs a payment method). Rate-limit docs list e.g. gpt-oss-120b/20b at 30 RPM, 1K requests/day, 8K tokens/min; Groq says your exact limits are on your console Limits page. Model IDs re-checked on Groq's models page Nov 9, 2026 (llama-3.x are Enterprise-only, so not listed).",
+   "cors": "Yes — Chrome loaded from this file could read the API response (tested Nov 1, 2026 with a dummy key → readable 4xx).",
+   "timeout": 45,
+   "retry": 1
+  },
+  {
+   "id": "openrouter",
+   "name": "OpenRouter (free models)",
+   "url": "https://openrouter.ai/api/v1/chat/completions",
+   "models": [
+    "google/gemma-4-31b-it:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "nvidia/nemotron-3.5-lightning:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "nvidia/nemotron-3.5-super-vl:free",
+    "thinkingmachines/inkling-2-small:free",
+    "liquid/lfm-3-1.7b:free"
+   ],
+   "key": "https://openrouter.ai/settings/keys",
+   "steps": [
+    "Sign up at openrouter.ai",
+    "Settings → Keys → Create key (no credits needed for :free models)",
+    "Paste it here; only ':free' model IDs are free"
+   ],
+   "limits": "Free models (IDs ending ':free'): 20 requests/min; 50 requests/day if you've bought <10 credits ever, 1,000/day with ≥10 credits purchased. Free model list pulled from OpenRouter's public API Nov 9, 2026 (inkling-small was replaced by inkling-2-small); it changes often — use \"Refresh model lists\".",
+   "cors": "Yes — Chrome loaded from this file could read the API response (tested Nov 1, 2026 with a dummy key → readable 4xx).",
+   "timeout": 45,
+   "retry": 1
+  },
+  {
+   "id": "mistral",
+   "name": "Mistral AI Studio",
+   "url": "https://api.mistral.ai/v1/chat/completions",
+   "models": [
+    "mistral-small-latest",
+    "ministral-14b-latest",
+    "ministral-8b-latest",
+    "mistral-large-latest"
+   ],
+   "key": "https://console.mistral.ai/api-keys",
+   "steps": [
+    "Sign up at console.mistral.ai",
+    "Activate Studio in Free mode (per Mistral quickstart)",
+    "Create an API key and paste it here"
+   ],
+   "limits": "Mistral's quickstart says Studio can be activated in 'Free mode'. Third-party probes report Small 4 works on the free tier; Large may be blocked. Model aliases are from Mistral's docs/third-party listings and were NOT tested with a key (open-mistral-nemo was retired Jul 31, 2026, so it was removed). Checked Nov 9, 2026.",
+   "cors": "Yes — Chrome loaded from this file could read the API response (tested Nov 1, 2026 with a dummy key → readable 4xx).",
+   "timeout": 45,
+   "retry": 1
+  },
+  {
+   "id": "cerebras",
+   "name": "Cerebras (trial credits)",
+   "url": "https://api.cerebras.ai/v1/chat/completions",
+   "models": [
+    "gpt-oss-120b",
+    "qwen-3.8-27b"
+   ],
+   "key": "https://cloud.cerebras.ai/",
+   "steps": [
+    "Sign up at cloud.cerebras.ai",
+    "Add a verified payment method to unlock $5 trial credits",
+    "Create an API key and paste it here"
+   ],
+   "limits": "Not permanently free: $5 trial credits after adding a payment method, expiring after 30 days. Trial limits: 5 RPM, 1M tokens/day. Verified Nov 1, 2026.",
+   "cors": "Uncertain — preflight passed, but a test call with a dummy key was blocked by Chrome (error responses lack CORS headers). Successful calls may work; not confirmed.",
+   "timeout": 45,
+   "retry": 1
+  },
+  {
+   "id": "poll_gen",
+   "name": "Pollinations (gen.pollinations.ai) — key required",
+   "url": "https://gen.pollinations.ai/v1/chat/completions",
+   "models": [
+    "openai/gpt-5.4-nano",
+    "openai/gpt-5.4-mini",
+    "openai/gpt-oss-20b",
+    "z-ai/glm-5.3-flash",
+    "nvidia/nemotron-3.5-lightning",
+    "mistralai/mistral-large-3"
+   ],
+   "key": "https://enter.pollinations.ai/keys",
+   "steps": [
+    "Sign in at enter.pollinations.ai",
+    "Create a secret key (starts with sk_)",
+    "Paste it here"
+   ],
+   "limits": "Needs a key: anonymous calls return 401 \"A valid API key is required\" (tested Nov 9, 2026, all models). Usage is billed in Pollinations \"Pollen\" credits; I could not verify a free allowance, so treat it as optional.",
+   "cors": "Yes — preflight returns Access-Control-Allow-Origin: *.",
+   "timeout": 60,
+   "retry": 1,
+   "extra": {
+    "reasoning_effort": "low",
+    "max_tokens": 8192
+   }
+  }
+ ],
+ "blocked": [
+  {
+   "name": "Cloudflare Workers AI",
+   "why": "Free allocation 10,000 Neurons/day (official pricing page, Nov 1, 2026), but Chrome blocked the browser call from this file (CORS), so it can only be used from a server/Worker.",
+   "site": "https://developers.cloudflare.com/workers-ai/platform/pricing/"
+  },
+  {
+   "name": "Hugging Face Inference Providers",
+   "why": "Free accounts get no included credits per HF's pricing page (PRO gets $2/mo). Not free, so not preloaded.",
+   "site": "https://huggingface.co/docs/inference-providers/pricing"
+  },
+  {
+   "name": "GitHub Models",
+   "why": "Retired July 30, 2026 per GitHub Docs.",
+   "site": "https://docs.github.com/en/github-models"
+  },
+  {
+   "name": "Together AI",
+   "why": "Browser CORS works (readable response in Chrome test), but I could not verify a current free tier on official pages today, so not preloaded.",
+   "site": "https://www.together.ai/pricing"
+  }
+ ]
+}
