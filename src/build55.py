@@ -199,18 +199,18 @@ SW = open(os.path.join(HERE, 'sw.js')).read().replace('__VERSION__', h.hexdigest
 open(os.path.join(ROOT, 'sw.js'), 'w').write(SW)
 print('wrote sw.js, cache version', h.hexdigest()[:12])
 
-# Cloudflare Pages headers: the CSP allows only this page's own inline <script>/<style> blocks (by hash),
+# Cloudflare Pages headers: the CSP allows only this page's own inline <script> blocks (by hash),
 # so it is regenerated on every build. JSON-LD is data, not script, and needs no hash.
 import base64
 def sha(t): return "'sha256-" + base64.b64encode(hashlib.sha256(t.encode()).digest()).decode() + "'"
-off = open(os.path.join(ROOT, 'offline.html')).read()
 scripts = [m for m in re.findall(r'<script>(.*?)</script>', out, re.S)]
-styles = re.findall(r'<style>(.*?)</style>', out, re.S) + re.findall(r'<style>(.*?)</style>', off, re.S)
 csp = ("default-src 'self'; script-src 'self' " + ' '.join(sha(x) for x in scripts) +
-       "; style-src 'self' " + ' '.join(sorted(set(sha(x) for x in styles))) +
+       # styles: 'unsafe-inline' rather than hashes, because WebKit (Safari) checks the built-in stylesheet
+       # of every <select> against style-src and logs a CSP error for each one; scripts stay hash-locked
+       "; style-src 'self' 'unsafe-inline'" +
        "; img-src 'self' data:; font-src 'self'; connect-src 'self' https:; manifest-src 'self'; worker-src 'self'"
        "; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests")
 HEADERS = open(os.path.join(HERE, 'headers.txt')).read().replace('__CSP__', csp)
 open(os.path.join(ROOT, '_headers'), 'w').write(HEADERS)
-print('wrote _headers (%d script, %d style hashes)' % (len(scripts), len(set(styles))))
+print('wrote _headers (%d script hashes)' % len(scripts))
 print('wrote', OUT, os.path.getsize(OUT), 'bytes;', len(items), 'items;', {t['k']: len(t['items']) for t in data})

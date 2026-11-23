@@ -1,6 +1,6 @@
 /* CMD Resource Hub Arizona service worker. Written to ../sw.js by build55.py, which stamps
-   a759bb94c32c with a hash of the shipped files so every rebuild rolls out as a new cache. */
-const VERSION = 'a759bb94c32c';
+   7d529f441c2c with a hash of the shipped files so every rebuild rolls out as a new cache. */
+const VERSION = '7d529f441c2c';
 const CACHE = 'az-hub-' + VERSION;
 const SHELL = [
   './',
@@ -15,8 +15,22 @@ const SHELL = [
   './icons/favicon-32.png',
 ];
 
+/** Some hosts redirect /index.html to / and /offline.html to /offline (Cloudflare Pages does).
+ *  A redirected response cannot answer a page load, so store a plain copy of it. */
+async function plain(res) {
+  if (!res.redirected) return res;
+  return new Response(await res.blob(), { status: res.status, statusText: res.statusText, headers: res.headers });
+}
+
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' })))));
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await Promise.all(SHELL.map(async (u) => {
+      const res = await fetch(new Request(u, { cache: 'reload' }));
+      if (!res.ok) throw new Error('precache failed: ' + u);
+      await cache.put(u, await plain(res));
+    }));
+  })());
   // a first install has nothing to replace, so it takes over straight away; an update waits
   // for the page's "Refresh" button (it posts SKIP_WAITING)
 });
@@ -38,7 +52,7 @@ async function page(request) {
   const cache = await caches.open(CACHE);
   try {
     const fresh = await fetch(request);
-    if (fresh.ok) cache.put(request, fresh.clone());
+    if (fresh.ok) cache.put(request, await plain(fresh.clone()));
     return fresh;
   } catch (err) {
     return (await cache.match(request, { ignoreSearch: true })) || (await cache.match('./offline.html'));
