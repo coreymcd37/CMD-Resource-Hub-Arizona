@@ -87,7 +87,10 @@ STATIC = ('<div id="static"><p id="jserr" class="jserr glass" hidden></p><div cl
 items = [x for t in data for x in t['items']]
 LD = json.dumps({'@context': 'https://schema.org', '@graph': [
     {'@type': 'WebSite', 'name': C.NAME, 'inLanguage': 'en-US', 'dateModified': C.STAMP,
-     'description': C.DESC, 'about': 'Assistance programs and resources in Arizona'},
+     'description': C.DESC, 'about': 'Assistance programs and resources in Arizona',
+     'url': 'https://azhub.coreymcdaniel.com/',
+     'author': {'@type': 'Person', '@id': 'https://coreymcdaniel.com/#person', 'name': 'Corey McDaniel', 'url': 'https://coreymcdaniel.com/',
+                'sameAs': ['https://github.com/coreymcd37', 'https://www.linkedin.com/in/mcdanielcorey']}},
     {'@type': 'ItemList', 'name': C.NAME + ' listings', 'numberOfItems': len(items),
      'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'name': x['n'], 'url': x['u']} for i, x in enumerate(items)]},
     {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in C.FAQ]},
