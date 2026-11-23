@@ -99,6 +99,7 @@ LOGO = ('<svg class="logo" viewBox="0 0 48 48" role="img" aria-label="CMD Resour
         '<defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00B4FF"/><stop offset="1" stop-color="#FF7A00"/></linearGradient></defs>'
         '<rect width="48" height="48" rx="12" fill="#05070d" stroke="url(#lg)" stroke-width="2"/><text x="24" y="31" text-anchor="middle" font-size="19" font-weight="700" font-family="system-ui,sans-serif" fill="url(#lg)">CMD</text></svg>')
 FOOT = ''.join(f'<p>{E(l)}</p>' for l in C.FOOTER)
+FOOT += f'<p class="credit">{E(C.CREDIT[0])} <a href="{E(C.CREDIT[2])}" rel="noopener">{E(C.CREDIT[1])}</a></p>'
 
 JS = open(os.path.join(HERE, 'core.js')).read() + '\n' + open(os.path.join(HERE, 'app.js')).read().replace('__STAMP__', C.STAMP)
 JS = JS.replace('__PROV__', json.dumps(json.load(open(os.path.join(HERE, 'providers.json'))), ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))

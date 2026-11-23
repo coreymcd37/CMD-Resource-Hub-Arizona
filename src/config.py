@@ -21,6 +21,9 @@ DESC = ('Free help in Arizona: rent and housing assistance, food banks, emergenc
 FOOTER = ('All of this information, including links and contact information, was accurate and checked working as of November 2026.',
           'All information came from the official organization web pages or an authoritative .gov listing.')
 
+# Last line of the footer: who made the hub (the link text stays the bare domain).
+CREDIT = ('Created by:', 'coreymcdaniel.com', 'https://coreymcdaniel.com/')
+
 # Tabs in display order: key, tab label (ALL CAPS, no "Free"), section heading (h2), blue subheader (h3, ALL CAPS), one-line intro.
 TABS = [
     ('health', 'HEALTH & FOOD', 'HEALTH & FOOD', 'FOOD BANKS, HEALTHCARE, AND SNAP',
