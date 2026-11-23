@@ -303,3 +303,7 @@ a.go { display: inline-block; margin: 8px 0 0 8px; color: #fff; text-decoration:
   .sech::before { box-shadow: none; height: 2px; margin-bottom: 6px; }
   .logo { width: 34px; height: 34px; }
 }
+
+/* "Update available" prompt from the service worker (src/pwa.js) */
+.pwaup { position: fixed; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 60; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; width: min(92vw, 520px); padding: 12px 16px; border-radius: 14px; font-size: .95rem; }
+@media print { .pwaup { display: none; } }

@@ -2,7 +2,7 @@ import sys, os, json, re
 from playwright.sync_api import sync_playwright
 import sys as _s; _s.path.insert(0,'src')
 import config as CF
-F='index.html'
+F=os.path.abspath('index.html')
 NAME=CF.NAME; H1=CF.H1_TEXT
 DEL_NAMES = []  # removed-tab name list not shipped in this repo
 DATA=json.load(open('src/data.json'))
@@ -76,7 +76,7 @@ with sync_playwright() as p:
             ctx=b.new_context(**kw); pg=ctx.new_page()
             html=open(F,encoding='utf8').read()
             # host page served over file:// with the hub as a srcdoc-free src iframe
-            host='test-output/host.html'
+            host=os.path.abspath('test-output/host.html'); os.makedirs('test-output', exist_ok=True)
             open(host,'w').write(f'<!doctype html><meta name=viewport content="width=device-width,initial-scale=1"><body style="margin:0;background:#222"><iframe id=f sandbox src="file://{F}" style="width:100%;height:{h}px;border:0"></iframe>')
             pg.goto('file://'+host); pg.wait_for_selector('#f')
             fr=pg.frame_locator('#f')

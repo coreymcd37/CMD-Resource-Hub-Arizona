@@ -16,6 +16,12 @@
 <meta property="og:url" content="https://YOUR-DOMAIN/CMD-Resource-Hub-Arizona.html">
 -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2305070d'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' font-weight='700' font-family='system-ui,sans-serif' fill='%2300B4FF'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AZ Resources">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:title" content="CMD Resource Hub Arizona | Arizona Assistance Programs">
 <meta property="og:site_name" content="CMD Resource Hub Arizona">
 <meta property="og:description" content="Free help in Arizona: rent and housing assistance, food banks, emergency shelter, legal aid, AHCCCS, SNAP, job training and more. Official links and contacts.">
@@ -330,6 +336,10 @@ a.go { display: inline-block; margin: 8px 0 0 8px; color: #fff; text-decoration:
   .sech::before { box-shadow: none; height: 2px; margin-bottom: 6px; }
   .logo { width: 34px; height: 34px; }
 }
+
+/* "Update available" prompt from the service worker (src/pwa.js) */
+.pwaup { position: fixed; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 60; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; width: min(92vw, 520px); padding: 12px 16px; border-radius: 14px; font-size: .95rem; }
+@media print { .pwaup { display: none; } }
 </style>
 </head>
 <body>
@@ -914,6 +924,43 @@ $('#static').remove();
   // Anything that goes wrong leaves the static, script-free list on screen and says so.
   try { console.error(err); var jn = document.getElementById('jserr'); if (jn) { jn.hidden = false; jn.textContent = 'Interactive features could not start in this viewer (' + (err && err.message ? err.message : err) + '). The full list below still works.'; } } catch { /* nothing more can be shown */ }
 }
+</script>
+<script>
+// Install-as-app support. The service worker is registered only when the hub is served over
+// HTTPS (the published site); opening index.html from disk or in a sandboxed viewer skips it.
+(function () {
+  if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
+  var accepted = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (accepted) { accepted = false; location.reload(); }
+  });
+  function offer(worker) {
+    if (document.getElementById('pwaup')) return;
+    var box = document.createElement('div');
+    box.id = 'pwaup'; box.className = 'pwaup glass'; box.setAttribute('role', 'status');
+    var msg = document.createElement('span'); msg.textContent = 'A new version of the hub is available.';
+    var go = document.createElement('button'); go.type = 'button'; go.className = 'btn'; go.textContent = 'Refresh';
+    var later = document.createElement('button'); later.type = 'button'; later.className = 'btn'; later.textContent = 'Later';
+    go.addEventListener('click', function () { accepted = true; go.disabled = true; worker.postMessage({ type: 'SKIP_WAITING' }); });
+    later.addEventListener('click', function () { box.remove(); });
+    box.append(msg, go, later);
+    document.body.appendChild(box);
+  }
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      if (reg.waiting && navigator.serviceWorker.controller) offer(reg.waiting);
+      reg.addEventListener('updatefound', function () {
+        var w = reg.installing;
+        if (w) w.addEventListener('statechange', function () {
+          if (w.state === 'installed' && navigator.serviceWorker.controller) offer(w);
+        });
+      });
+      // check for a new version when the app comes back to the foreground
+      document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') reg.update().catch(function () {}); });
+    }).catch(function () { /* no offline support in this browser; the hub still works */ });
+  });
+})();
+
 </script>
 </body>
 </html>

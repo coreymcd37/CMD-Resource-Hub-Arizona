@@ -1,6 +1,6 @@
-import sys
+import sys, os
 from playwright.sync_api import sync_playwright
-F='index.html'
+F=os.path.abspath('index.html')
 with sync_playwright() as p:
     b=p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
     pg=b.new_page(viewport={'width':1280,'height':900}); errs=[]
