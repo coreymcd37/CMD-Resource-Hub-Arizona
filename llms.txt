@@ -1,0 +1,24 @@
+# CMD Resource Hub Arizona
+
+> A free, single-page directory of Arizona assistance programs and resources, made by Corey McDaniel (Tempe, Arizona). Each listing links to the program's official website and contact details. It is made by an individual, not a government agency.
+
+There is no account or sign-up, and in most browsers the page also works offline after the first visit. Listings are grouped into these sections (number of listings in brackets):
+
+- Health & Food (Free) (59)
+- Legal & Law (60)
+- Free Certs & School (53)
+- Business, Funding & Credit (57)
+- Super Cheap Only (77)
+- All Free Services (48)
+- Housing & Shelter (65)
+- Job Placement & Help (54)
+- State & Other Assistance (76)
+
+## Links
+
+- [CMD Resource Hub Arizona](https://azhub.coreymcdaniel.com/)
+- [Corey McDaniel](https://coreymcdaniel.com/): personal site, apps and contact
+- [100 Free & Cheap Ways to Save Money in Tempe, AZ](https://coreymcdaniel.com/free-and-cheap-hacks/)
+- [Everyday & Business tools](https://tools.coreymcdaniel.com/)
+- [GitHub](https://github.com/coreymcd37)
+- [LinkedIn](https://www.linkedin.com/in/mcdanielcorey)
