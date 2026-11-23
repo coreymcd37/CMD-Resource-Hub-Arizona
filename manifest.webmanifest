@@ -1,0 +1,20 @@
+{
+  "name": "CMD Resource Hub Arizona",
+  "short_name": "AZ Resources",
+  "description": "Free and sponsored resources for Arizona residents: food, health care, housing, jobs, legal help, education and business funding.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "lang": "en-US",
+  "dir": "ltr",
+  "theme_color": "#05070d",
+  "background_color": "#05070d",
+  "categories": ["government", "lifestyle", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

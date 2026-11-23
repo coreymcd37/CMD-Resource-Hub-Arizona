@@ -106,6 +106,7 @@ if MIN:
     JS = re.sub(r'(?m)^\s*//.*$', '', JS); JS = re.sub(r'\n\s*\n+', '\n', JS)
     CSS = re.sub(r'/\*.*?\*/', '', CSS, flags=re.S); CSS = re.sub(r'\n\s*', '', CSS)
 
+PWA = open(os.path.join(HERE, 'pwa.js')).read()
 meta_title, meta_desc = E(C.TITLE), E(C.DESC)
 out = f'''<!doctype html>
 <html lang="en">
@@ -125,6 +126,12 @@ out = f'''<!doctype html>
 <meta property="og:url" content="https://YOUR-DOMAIN/CMD-Resource-Hub-Arizona.html">
 -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2305070d'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' font-weight='700' font-family='system-ui,sans-serif' fill='%2300B4FF'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AZ Resources">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:title" content="{meta_title}">
 <meta property="og:site_name" content="{E(C.NAME)}">
 <meta property="og:description" content="{meta_desc}">
@@ -176,8 +183,21 @@ try {{
   try {{ console.error(err); var jn = document.getElementById('jserr'); if (jn) {{ jn.hidden = false; jn.textContent = 'Interactive features could not start in this viewer (' + (err && err.message ? err.message : err) + '). The full list below still works.'; }} }} catch {{ /* nothing more can be shown */ }}
 }}
 </script>
+<script>
+{PWA}
+</script>
 </body>
 </html>
 '''
 open(OUT, 'w').write(out)
+# Service worker: stamp a version from the shipped files so each rebuild rolls out as a new cache.
+import hashlib
+ROOT = os.path.dirname(OUT)
+h = hashlib.sha256(out.encode())
+h.update(open(os.path.join(HERE, 'sw.js'), 'rb').read())
+for rel in ['offline.html', 'manifest.webmanifest'] + sorted('icons/' + f for f in os.listdir(os.path.join(ROOT, 'icons'))):
+    h.update(open(os.path.join(ROOT, rel), 'rb').read())
+SW = open(os.path.join(HERE, 'sw.js')).read().replace('__VERSION__', h.hexdigest()[:12])
+open(os.path.join(ROOT, 'sw.js'), 'w').write(SW)
+print('wrote sw.js, cache version', h.hexdigest()[:12])
 print('wrote', OUT, os.path.getsize(OUT), 'bytes;', len(items), 'items;', {t['k']: len(t['items']) for t in data})
