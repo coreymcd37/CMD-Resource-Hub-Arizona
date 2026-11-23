@@ -1,6 +1,6 @@
 /* CMD Resource Hub Arizona service worker. Written to ../sw.js by build55.py, which stamps
-   5ae9bd4d8965 with a hash of the shipped files so every rebuild rolls out as a new cache. */
-const VERSION = '5ae9bd4d8965';
+   a759bb94c32c with a hash of the shipped files so every rebuild rolls out as a new cache. */
+const VERSION = 'a759bb94c32c';
 const CACHE = 'az-hub-' + VERSION;
 const SHELL = [
   './',
