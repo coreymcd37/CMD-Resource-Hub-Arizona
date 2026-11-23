@@ -19,7 +19,8 @@ DESC = ('Free help in Arizona: rent and housing assistance, food banks, emergenc
 
 # Footer: exactly these two lines and nothing else.
 FOOTER = ('All of this information, including links and contact information, was accurate and checked working as of November 2026.',
-          'All information came from the official organization web pages or an authoritative .gov listing.')
+          'All information came from the official organization web pages or an authoritative .gov listing.',
+          'CMD Resource Hub Arizona is an independent guide. It is not affiliated with, endorsed by, or run by any government agency.')
 
 # Last line of the footer: who made the hub (the link text stays the bare domain).
 CREDIT = ('Created by:', 'coreymcdaniel.com', 'https://coreymcdaniel.com/')
