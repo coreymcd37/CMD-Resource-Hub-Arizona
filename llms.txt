@@ -1,6 +1,6 @@
 # CMD Resource Hub Arizona
 
-> A free, single-page directory of Arizona assistance programs and resources, made by Corey McDaniel (Tempe, Arizona). Each listing links to the program's official website and contact details. It is made by an individual, not a government agency.
+> A free, single-page directory of Arizona assistance programs and resources, made by Corey McDaniel (Tempe, Arizona). Each listing links to the program's official website and contact details. It is an independent guide, not affiliated with any government agency.
 
 There is no account or sign-up, and in most browsers the page also works offline after the first visit. Listings are grouped into these sections (number of listings in brackets):
 

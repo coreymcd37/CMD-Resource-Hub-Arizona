@@ -39,7 +39,7 @@ def check_page(pg, tag, scope):
         ck(tag+f' tab {i} dropdown closes', not d.evaluate('e=>e.open') and not d.locator('.in').is_visible())
     ck(tag+' total items', tot==TOTAL, tot)
     ck(tag+' header: CMD logo + H1 "RESOURCE HUB ARIZONA", no version', L('.brand svg.logo').count()==1 and L('h1').inner_text()==H1 and 'CMD' not in L('h1').inner_text() and not re.search(r'(?<![\d.$])5\.5(?![\d%])', L('body').inner_text()), L('h1').inner_text())
-    ck(tag+' footer is the two approved lines plus the Created by credit', L('.foot p').all_text_contents()==list(CF.FOOTER)+[CF.CREDIT[0]+' '+CF.CREDIT[1]] and L('.foot *').count()==4, L('.foot').inner_text()[:80])
+    ck(tag+' footer is the approved lines (incl. the independent-guide line) plus the Created by credit', L('.foot p').all_text_contents()==list(CF.FOOTER)+[CF.CREDIT[0]+' '+CF.CREDIT[1]] and L('.foot *').count()==len(CF.FOOTER)+2, L('.foot').inner_text()[:80])
     ck(tag+' tab labels exact, ALL CAPS, no Free, no digits', [t.strip() for t in L('.snav label').all_text_contents()]==names and all(t==t.upper() and 'FREE' not in t and not re.search(r'\d',t) for t in names))
     htm=L('html').inner_html()
     ck(tag+' deleted tab: no trace', not re.search(r'network security|wireshark|pen.?test|nmap|suricata|pfsense|opnsense|home network|only test networks', htm+L('body').inner_text(), re.I) and not [x for x in DEL_NAMES if len(x)>8 and x in htm])
