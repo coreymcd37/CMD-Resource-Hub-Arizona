@@ -210,6 +210,11 @@ a.go { display: inline-block; margin: 8px 0 0 8px; color: #fff; text-decoration:
 .faq p { margin: 8px 0 0; font-size: 14px; line-height: 1.55; color: var(--t); }
 .foot { color: var(--m); font-size: 13px; line-height: 1.5; margin-top: 28px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.12); text-align: center; }
 .foot p { margin: 4px 0; }
+/* "Created by: coreymcdaniel.com": the main site's bright umbrella blue (5.5:1 on the page background) */
+.foot .credit { margin-top: 10px; }
+.foot .credit a { color: #0A84FF; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.foot .credit a:hover { color: #6CC0FF; }
+.foot .credit a:focus-visible { color: #6CC0FF; outline: 3px solid #6CC0FF; outline-offset: 3px; border-radius: 4px; }
 
 /* overlays: AI results, settings, print dialog */
 .ov { position: fixed; inset: 0; background: rgba(2,4,10,.7); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); z-index: 50; display: none; align-items: flex-start; justify-content: center; padding: 20px 10px; overflow: auto; }
@@ -270,6 +275,7 @@ a.go { display: inline-block; margin: 8px 0 0 8px; color: #fff; text-decoration:
   .intro { color: #111; border: 2px solid #c25500; border-left: 6px solid #006c99; background: #fff; box-shadow: none; font-size: 10.5px; padding: 6px 9px; margin: 0 0 6px; }
   .pdate { display: block; color: #333 !important; font-size: 12px; }
   .sub, .foot, .ds, .src, .hint, .ck, .muted { color: #333 !important; }
+  .foot .credit a { color: #0050b3 !important; }
   .glass, .item, .ct { background: #fff !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border: 1px solid #bbb !important; break-inside: avoid; }
   .item { margin-bottom: 7px; }
   .item::before { display: none; }

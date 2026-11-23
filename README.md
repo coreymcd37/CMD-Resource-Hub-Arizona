@@ -38,7 +38,7 @@ To host it elsewhere, upload these files together, keeping the paths: `index.htm
 | `index.html` | The complete, self-contained site |
 | `sw.js`, `offline.html`, `manifest.webmanifest`, `icons/` | App (PWA) files: service worker (generated), offline page, manifest, icons |
 | `_headers` | Hosting headers for Cloudflare Pages (generated from `src/headers.txt`) |
-| `src/` | Readable sources: `data.json` (listings), `config.py` (text), `css.css`, `core.js`, `app.js`, `providers.json` (AI providers), `pwa.js` (service worker registration and update prompt), `sw.js` (service worker template), `build55.py` (builder) |
+| `src/` | Readable sources: `data.json` (listings), `config.py` (text), `css.css`, `core.js`, `app.js`, `providers.json` (AI providers), `pwa.js` (service worker registration and update prompt), `sw.js` (service worker template), `offline.html` (offline page template), `build55.py` (builder) |
 | `tests/` | Playwright test scripts (no-JS, JS features, failure fallbacks, links) |
 | `docs/` | Full PDF printout, SEO keyword list, data audit log |
 | `assets/screenshots/` | Desktop and mobile screenshots |
