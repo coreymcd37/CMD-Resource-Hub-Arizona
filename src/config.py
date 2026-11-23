@@ -4,6 +4,7 @@ Change INTRO here and rebuild with `python3 build55.py`; it is used in the orang
 """
 NAME = 'CMD Resource Hub Arizona'      # used in <title>/meta/JSON-LD only; the visible header is the CMD logo + H1_TEXT
 H1_TEXT = 'RESOURCE HUB ARIZONA'
+SITE_URL = 'https://azhub.coreymcdaniel.com/'   # published address (canonical + og:url)
 VERSION = '5.5'                        # internal only (HTML comment); never shown to visitors
 STAMP = '2026-11-11'                   # date links/contacts were last re-checked (also invalidates cached AI model lists)
 

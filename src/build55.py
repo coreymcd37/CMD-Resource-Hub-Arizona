@@ -121,10 +121,8 @@ out = f'''<!doctype html>
 <meta name="generator" content="{E(C.NAME)}">
 <meta name="theme-color" content="#05070d">
 <meta name="color-scheme" content="dark">
-<!-- Canonical placeholder: when this file is published, replace YOUR-DOMAIN and uncomment.
-<link rel="canonical" href="https://YOUR-DOMAIN/CMD-Resource-Hub-Arizona.html">
-<meta property="og:url" content="https://YOUR-DOMAIN/CMD-Resource-Hub-Arizona.html">
--->
+<link rel="canonical" href="{C.SITE_URL}">
+<meta property="og:url" content="{C.SITE_URL}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2305070d'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' font-weight='700' font-family='system-ui,sans-serif' fill='%2300B4FF'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -200,4 +198,19 @@ for rel in ['offline.html', 'manifest.webmanifest'] + sorted('icons/' + f for f 
 SW = open(os.path.join(HERE, 'sw.js')).read().replace('__VERSION__', h.hexdigest()[:12])
 open(os.path.join(ROOT, 'sw.js'), 'w').write(SW)
 print('wrote sw.js, cache version', h.hexdigest()[:12])
+
+# Cloudflare Pages headers: the CSP allows only this page's own inline <script>/<style> blocks (by hash),
+# so it is regenerated on every build. JSON-LD is data, not script, and needs no hash.
+import base64
+def sha(t): return "'sha256-" + base64.b64encode(hashlib.sha256(t.encode()).digest()).decode() + "'"
+off = open(os.path.join(ROOT, 'offline.html')).read()
+scripts = [m for m in re.findall(r'<script>(.*?)</script>', out, re.S)]
+styles = re.findall(r'<style>(.*?)</style>', out, re.S) + re.findall(r'<style>(.*?)</style>', off, re.S)
+csp = ("default-src 'self'; script-src 'self' " + ' '.join(sha(x) for x in scripts) +
+       "; style-src 'self' " + ' '.join(sorted(set(sha(x) for x in styles))) +
+       "; img-src 'self' data:; font-src 'self'; connect-src 'self' https:; manifest-src 'self'; worker-src 'self'"
+       "; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests")
+HEADERS = open(os.path.join(HERE, 'headers.txt')).read().replace('__CSP__', csp)
+open(os.path.join(ROOT, '_headers'), 'w').write(HEADERS)
+print('wrote _headers (%d script, %d style hashes)' % (len(scripts), len(set(styles))))
 print('wrote', OUT, os.path.getsize(OUT), 'bytes;', len(items), 'items;', {t['k']: len(t['items']) for t in data})
